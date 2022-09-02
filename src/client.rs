@@ -1,6 +1,5 @@
 use crate::response::body::AddFileResponseBody;
-use either::Either;
-use futures::future::{join_all, ok};
+use futures::future::{join_all};
 use reqwest::{multipart, Body, Client};
 use tokio::fs::File;
 use tokio_util::codec::{BytesCodec, FramedRead};
