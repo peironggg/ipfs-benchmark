@@ -1,4 +1,5 @@
 mod client;
+mod executor;
 mod response;
 
 const BASE_URL: &str = "http://127.0.0.1:5001/api/v0";
@@ -11,12 +12,9 @@ async fn main() {
         std::process::exit(1);
     }
     let file_path: &str = &args[1];
+    let benchmark_client = client::BenchmarkClient::new(reqwest::Client::new());
+    let executor = executor::Executor::new(benchmark_client, BASE_URL);
+    let result = executor.execute(vec![file_path]).await;
 
-    let benchmark_client = client::BenchmarkClient {
-        http_client: reqwest::Client::new(),
-    };
-    let (successes, errors) = benchmark_client.add_files(BASE_URL, vec![file_path]).await;
-
-    println!("successes: {:?}", successes);
-    println!("errors: {:?}", errors);
+    println!("result: {:?}", result);
 }

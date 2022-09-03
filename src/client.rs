@@ -5,7 +5,7 @@ use tokio::fs::File;
 use tokio_util::codec::{BytesCodec, FramedRead};
 
 // Type Aliases
-type Result<T> = std::result::Result<T, BenchmarkError>;
+pub type Result<T> = std::result::Result<T, BenchmarkError>;
 
 // Errors
 #[derive(Debug)]
@@ -26,11 +26,16 @@ impl From<reqwest::Error> for BenchmarkError {
     }
 }
 
+// Client
 pub struct BenchmarkClient {
     pub http_client: Client,
 }
 
 impl BenchmarkClient {
+    pub fn new(http_client: Client) -> BenchmarkClient {
+        BenchmarkClient { http_client }
+    }
+
     pub async fn add_file(&self, url_path: &str, file_path: &str) -> Result<AddFileResponseBody> {
         let file = File::open(file_path).await?;
         let stream = FramedRead::new(file, BytesCodec::new());
