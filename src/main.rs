@@ -1,6 +1,7 @@
 mod client;
 mod executor;
 mod response;
+mod timer;
 
 const BASE_URL: &str = "http://127.0.0.1:5001/api/v0";
 
